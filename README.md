@@ -92,7 +92,6 @@ ___
 > Program.cs
 ```
 using System;
-using System.Net.Http;
 
 namespace Interfaces
 {
@@ -100,20 +99,20 @@ namespace Interfaces
     {
         static void Main(string[] args)
         {
-            Console.Write("Задайте шаг для арифметической прогрессии: ");
-            int step = Convert.ToInt32(Console.ReadLine());
-
-            Console.WriteLine($"Арифметическая прогрессия (шаг = {step}):");
-            ISeries arith = new ArithProgression(step);
-            arith.SetStart(10);
-
-            for (int i = 0; i < 5; i++)
-            {
-                Console.WriteLine(arith.GetNext());
-            }
-
             try
             {
+                Console.Write("Задайте шаг для арифметической прогрессии: ");
+                int step = Convert.ToInt32(Console.ReadLine());
+
+                Console.WriteLine($"Арифметическая прогрессия (шаг = {step}):");
+                ISeries arith = new ArithProgression(step);
+                arith.SetStart(10);
+
+                for (int i = 0; i < 5; i++)
+                {
+                    Console.WriteLine(arith.GetNext());
+                }
+
                 Console.Write($"Задайте знаменатель для геометрической прогрессии: ");
                 int denominatorValue = Convert.ToInt32(Console.ReadLine());
 
@@ -137,10 +136,26 @@ namespace Interfaces
                 Console.WriteLine(ex.Message);
             }
 
+            catch (FormatException)
+            {
+                Console.WriteLine("Ошибка: введено не число.");
+            }
+
+            catch (OverflowException)
+            {
+                Console.WriteLine("Ошибка: введено слишком большое число.");
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Неожиданная ошибка: {ex.Message}");
+            }
+
             Console.ReadKey();
         }
     }
 }
+
 
 ```
 ___
