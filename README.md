@@ -26,9 +26,9 @@ namespace Interfaces
 
     class ArithProgression : ISeries
     {
-        private int startValue { get; set; }
-        private int currentValue { get; set; }
-        private int step { get; set; }
+        private int startValue;
+        private int currentValue;
+        private int step;
 
         public ArithProgression(int step = 1)
         {
@@ -55,16 +55,17 @@ namespace Interfaces
 
     class GeomProgression : ISeries
     {
-        private int startValue { get; set; }
-        private int currentValue { get; set; }
-        private int denominatorValue { get; set; }
+        private int startValue;
+        private int currentValue;
+        private int denominatorValue;
 
         public GeomProgression(int denominatorValue = 2)
         {
-            if (denominatorValue == 0)
+            if (denominatorValue <= 1)
             {
-                throw new ArgumentException("Знаменатель не может быть равен 0");
+                throw new ArgumentException("Знаменатель должен быть больше 1.");
             }
+
             this.denominatorValue = denominatorValue;
         }
 
@@ -91,6 +92,7 @@ ___
 > Program.cs
 ```
 using System;
+using System.Net.Http;
 
 namespace Interfaces
 {
@@ -98,8 +100,11 @@ namespace Interfaces
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Арифметическая прогрессия (шаг = 5):");
-            ISeries arith = new ArithProgression(5);
+            Console.Write("Задайте шаг для арифметической прогрессии: ");
+            int step = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine($"Арифметическая прогрессия (шаг = {step}):");
+            ISeries arith = new ArithProgression(step);
             arith.SetStart(10);
 
             for (int i = 0; i < 5; i++)
@@ -107,18 +112,30 @@ namespace Interfaces
                 Console.WriteLine(arith.GetNext());
             }
 
-            Console.WriteLine("\nГеометрическая прогрессия (знаменатель = 4): ");
-            ISeries geom = new GeomProgression(4);
-            geom.SetStart(3);
-
-            for (int i = 0; i < 5; i++)
+            try
             {
-                Console.WriteLine(geom.GetNext());
+                Console.Write($"Задайте знаменатель для геометрической прогрессии: ");
+                int denominatorValue = Convert.ToInt32(Console.ReadLine());
+
+                Console.WriteLine($"\nГеометрическая прогрессия (знаменатель = {denominatorValue}): ");
+                ISeries geom = new GeomProgression(denominatorValue);
+                geom.SetStart(3);
+
+                for (int i = 0; i < 5; i++)
+                {
+                    Console.WriteLine(geom.GetNext());
+                }
+
+                geom.Reset();
+
+                Console.WriteLine($"\nПосле сброса: {geom.GetNext()}");
             }
 
-            geom.Reset();
+            catch (ArgumentException ex)
+            {
 
-            Console.WriteLine($"\nПосле сброса: {geom.GetNext()}");
+                Console.WriteLine(ex.Message);
+            }
 
             Console.ReadKey();
         }
