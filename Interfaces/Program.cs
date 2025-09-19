@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 
 namespace Interfaces
 {
@@ -6,8 +7,11 @@ namespace Interfaces
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Арифметическая прогрессия (шаг = 5):");
-            ISeries arith = new ArithProgression(5);
+            Console.Write("Задайте шаг для арифметической прогрессии: ");
+            int step = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine($"Арифметическая прогрессия (шаг = {step}):");
+            ISeries arith = new ArithProgression(step);
             arith.SetStart(10);
 
             for (int i = 0; i < 5; i++)
@@ -15,18 +19,30 @@ namespace Interfaces
                 Console.WriteLine(arith.GetNext());
             }
 
-            Console.WriteLine("\nГеометрическая прогрессия (знаменатель = 4): ");
-            ISeries geom = new GeomProgression(4);
-            geom.SetStart(3);
-
-            for (int i = 0; i < 5; i++)
+            try
             {
-                Console.WriteLine(geom.GetNext());
+                Console.Write($"Задайте знаменатель для геометрической прогрессии: ");
+                int denominatorValue = Convert.ToInt32(Console.ReadLine());
+
+                Console.WriteLine($"\nГеометрическая прогрессия (знаменатель = {denominatorValue}): ");
+                ISeries geom = new GeomProgression(denominatorValue);
+                geom.SetStart(3);
+
+                for (int i = 0; i < 5; i++)
+                {
+                    Console.WriteLine(geom.GetNext());
+                }
+
+                geom.Reset();
+
+                Console.WriteLine($"\nПосле сброса: {geom.GetNext()}");
             }
 
-            geom.Reset();
+            catch (ArgumentException)
+            {
 
-            Console.WriteLine($"\nПосле сброса: {geom.GetNext()}");
+                Console.WriteLine("Знаменатель не может быть равен 0");
+            }
 
             Console.ReadKey();
         }
