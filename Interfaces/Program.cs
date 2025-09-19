@@ -38,10 +38,10 @@ namespace Interfaces
                 Console.WriteLine($"\nПосле сброса: {geom.GetNext()}");
             }
 
-            catch (ArgumentException)
+            catch (ArgumentException ex)
             {
 
-                Console.WriteLine("Знаменатель не может быть равен 0");
+                Console.WriteLine(ex.Message);
             }
 
             Console.ReadKey();
