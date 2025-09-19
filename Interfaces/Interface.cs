@@ -11,9 +11,9 @@ namespace Interfaces
 
     class ArithProgression : ISeries
     {
-        private int startValue { get; set; }
-        private int currentValue { get; set; }
-        private int step { get; set; }
+        private int startValue;
+        private int currentValue;
+        private int step;
 
         public ArithProgression(int step = 1)
         {
@@ -40,9 +40,9 @@ namespace Interfaces
 
     class GeomProgression : ISeries
     {
-        private int startValue { get; set; }
-        private int currentValue { get; set; }
-        private int denominatorValue { get; set; }
+        private int startValue;
+        private int currentValue;
+        private int denominatorValue;
 
         public GeomProgression(int denominatorValue = 2)
         {
