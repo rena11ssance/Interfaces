@@ -46,9 +46,9 @@ namespace Interfaces
 
         public GeomProgression(int denominatorValue = 2)
         {
-            if (denominatorValue <= 1)
+            if (denominatorValue == 0)
             {
-                throw new ArgumentException("Знаменатель должен быть больше 1.");
+                throw new ArgumentException("Знаменатель не может быть равен 0.");
             }
 
             this.denominatorValue = denominatorValue;
